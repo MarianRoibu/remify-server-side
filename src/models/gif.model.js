@@ -13,11 +13,10 @@ const gifSchema = new Schema({
   },
   release: {
     type: Date,
-    required: [true, "You need to add the release date for the GIF"]
   },
-  gifUrl: {
-    type: String,
-    required: [true, "You need to add the URL for the GIF"]
+  gif: {
+    public_id: {type: String, required: true},
+    secure_url: {type: String, required: true}
   },
   statistics: {
     type: Schema.Types.ObjectId,
@@ -26,7 +25,6 @@ const gifSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: "users",
-    required: true
   },
   status: {
     type: Number,

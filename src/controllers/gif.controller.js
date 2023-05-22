@@ -1,4 +1,4 @@
-const { gifModel } = require("../models");
+const { GifModel } = require("../models");
 const fs = require("fs-extra");
 const { uploadGif } = require("../utils/cloudinary");
 
@@ -24,27 +24,28 @@ const gifController = {
   },
 
   uploadGif: async (req, res) => {
-    const { file } = req;
-
-    if (!file) {
-      return res.status(400).send({
+    const { body, files } = req;
+  
+    if (!files.gif) {
+      res.status(409).send({
         status: false,
-        msg: "You need to upload a GIF",
+        msg: "You need to add an image",
       });
+      return;
     }
-
+  
     try {
-      const { public_id, secure_url } = await uploadGif(file.tempFilePath);
-      await fs.unlink(file.tempFilePath);
-
-      const newGif = await gifModel.create({
-        public_id,
-        secure_url,
+      const { public_id, secure_url } = await uploadGif(files.gif.tempFilePath);
+      await fs.unlink(files.gif.tempFilePath);
+  
+      const newGif = await GifModel.create({
+        ...body,
+        gif: { public_id, secure_url },
       });
-
+  
       res.status(201).send({
         status: true,
-        msg: "GIF uploaded successfully",
+        msg: "We created a new image",
         data: newGif,
       });
     } catch (error) {
@@ -59,7 +60,7 @@ const gifController = {
     const { id: gifId } = req.params;
 
     try {
-      const deletedGif = await gifModel.findOneAndUpdate(
+      const deletedGif = await GifModel.findOneAndUpdate(
         {
           _id: gifId,
           status: 1,
