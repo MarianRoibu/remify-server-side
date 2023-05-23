@@ -4,7 +4,8 @@ const cors = require("cors");
 const jwtCheck = require("./utils/authz.js")
 const { 
     imageRouter,
-    gifRouter
+    gifRouter,
+    userRouter
 } = require("./routes")
 const {
     PORT,
@@ -30,3 +31,4 @@ connectDB(app, PORT, DB);
 // Routes
 app.use("/gif", gifRouter)
 app.use("/image", imageRouter)
+app.use("/users", userRouter)

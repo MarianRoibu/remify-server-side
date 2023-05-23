@@ -26,6 +26,9 @@ const imageController = {
   uploadImage: async (req, res) => {
     const { body, files } = req;
   
+    // Retrieve the owner's user ID from the form data
+    const ownerId = req.body.owner;
+  
     if (!files.img) {
       res.status(409).send({
         status: false,
@@ -40,6 +43,7 @@ const imageController = {
   
       const newImage = await ImageModel.create({
         ...body,
+        owner: ownerId, // Set the owner as the user ID
         img: { public_id, secure_url },
       });
   
