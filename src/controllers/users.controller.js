@@ -5,9 +5,9 @@ const fs = require("fs-extra");
 const userController = {
     postUser: async (req, res, next) => {
         const { auth: { payload: { sub } } } = req;
-        const { name, email, img, role, username, genres } = req.body
+        const { name, email, img, role, username } = req.body
 
-        console.log(genres)
+  
 
         try {
             const searchIfCreated = await UserModel
@@ -45,7 +45,6 @@ const userController = {
                         sub,
                         role,
                         username,
-                        "$set" : {genres: genres}
                     }
                 );
 
@@ -72,7 +71,7 @@ const userController = {
         const { sub } = req.auth.payload;
       
         try {
-          const user = await UserModel.findOne({ sub }).lean().exec();
+          const user = await UserModel.findOne({ sub: sub }).lean().exec();
       
           if (!user) {
             res.status(404).send({

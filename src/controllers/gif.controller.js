@@ -5,7 +5,7 @@ const { uploadGif } = require("../utils/cloudinary");
 const gifController = {
   getAllGifs: async (req, res) => {
     try {
-      const gifs = await gifModel.find({ status: 1 }).sort({ _id: -1 }).limit(48);
+      const gifs = await GifModel.find({ status: 1 }).sort({ _id: -1 }).limit(48);
 
       if (!gifs) {
         return res.status(404).send({
@@ -25,7 +25,10 @@ const gifController = {
 
   uploadGif: async (req, res) => {
     const { body, files } = req;
-  
+
+      // Retrieve the owner's user ID from the form data
+    const ownerId = req.body.owner;
+
     if (!files.gif) {
       res.status(409).send({
         status: false,
@@ -40,12 +43,13 @@ const gifController = {
   
       const newGif = await GifModel.create({
         ...body,
+        owner: ownerId, // Set the owner as the user ID
         gif: { public_id, secure_url },
       });
   
       res.status(201).send({
         status: true,
-        msg: "We created a new image",
+        msg: "We created a new gif",
         data: newGif,
       });
     } catch (error) {
