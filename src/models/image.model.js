@@ -26,7 +26,7 @@ const imageSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: "users",
-    required:true
+    required: true
   },
   status: {
     type: Number,

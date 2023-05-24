@@ -31,6 +31,14 @@ const UserSchema = new Schema({
         type: String,
         unique: true
     },
+    images: [{
+        type: Types.ObjectId,
+        ref: "images"
+    }],
+    gifs: [{
+        type: Types.ObjectId,
+        ref: "gifs"
+    }],
     follows:[{
         type: Types.ObjectId,
         ref: "follows"

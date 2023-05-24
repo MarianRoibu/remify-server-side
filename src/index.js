@@ -4,7 +4,9 @@ const cors = require("cors");
 const jwtCheck = require("./utils/authz.js")
 const { 
     imageRouter,
+    imagePublicRouter,
     gifRouter,
+    gifPublicRouter,
     userRouter
 } = require("./routes")
 const {
@@ -15,6 +17,11 @@ const fileUpload = require("express-fileupload")
 
 
 const app = express();
+
+// Public Routes
+app.use("/imagepublic", imagePublicRouter) 
+app.use("/gifpublic", gifPublicRouter) 
+
 
 
 app.use(cors());
