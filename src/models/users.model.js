@@ -3,11 +3,11 @@ const { Schema, model, Types } = require("mongoose")
 const UserSchema = new Schema({
     name: {
         type: String,
-        required: [true, 'The name is requerid']
+        required: [true, 'The name is requeried']
     },
     email: {
         type: String,
-        required: [true, 'The email is requerid'],
+        required: [true, 'The email is requeried'],
         unique: true
     },
     username: {
@@ -38,14 +38,6 @@ const UserSchema = new Schema({
     gifs: [{
         type: Types.ObjectId,
         ref: "gifs"
-    }],
-    follows:[{
-        type: Types.ObjectId,
-        ref: "follows"
-    }],
-    followers: [{
-        type: Types.ObjectId,
-        ref: "followers"
     }],
     role: {
         type: Number,

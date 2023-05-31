@@ -22,6 +22,7 @@ const getAllGifPublicController = {
           });
         }
       },
+      
   }
   
 module.exports = { getAllGifPublicController };

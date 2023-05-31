@@ -92,51 +92,7 @@ const userController = {
           });
         }
       },
-    getByUsername: async (req, res) => {
-        const { username } = req.params;
 
-        try {
-            const user = await UserModel
-                .findOne({ username: username })
-                .populate({
-                    path: "playlists",
-                    populate: "songs"
-                })
-                .populate({
-                    path: "albums",
-                    populate: "songs"
-                })
-                .lean()
-                .exec();
-
-            if (!user || user.length === 0) {
-                res.status(404).send({
-                    status: false,
-                    msg: "We coundn't find your user",
-                })
-                return;
-            }
-
-            const albumsShow = user.albums.filter(album => album.status === 1)
-            const playlistShow = user.playlists.filter(playlist => !playlist.private)
-
-            const userClear = {
-                ...user,
-                albums: albumsShow,
-                playlists: playlistShow
-            }
-
-            res.status(200).send({
-                status: true,
-                data: userClear
-            })
-        } catch (error) {
-            res.status(500).send({
-                status: false,
-                msg: error
-            })
-        }
-    },
     getById: async (req, res) => {
         const { userId } = req.params;
         try {
@@ -210,7 +166,6 @@ const userController = {
             });
         }
     },
-    
     
     deleteUser: async (req, res) => {
         const { body } = req;

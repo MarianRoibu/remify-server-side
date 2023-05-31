@@ -49,38 +49,7 @@ const gifController = {
         })
     }
   },
-  getByName: async (req, res) => {
-  const { title } = req.params;
-  try {
-      const image = await ImageModel
-          .find({
-              "name": {
-                  "$regex": title,
-                  "$options": "i"
-              }
-          })
-          .lean()
-          .exec();
-
-      if (image.length <= 0) {
-          res.status(404).send({
-              status: false,
-              msg: "We coundn't find your image",
-          })
-          return
-      }
-
-      res.status(200).send({
-          status: true,
-          data: image
-      })
-  } catch (error) {
-      res.status(500).send({
-          status: false,
-          msg: error
-      })
-  }
-},
+ 
 
   uploadGif: async (req, res, file) => {
     const { body, files } = req;
@@ -170,7 +139,7 @@ const gifController = {
     }
 },
 
-getByName: async (req, res) => {
+  getByName: async (req, res) => {
   const { title } = req.params;
   try {
       const gif = await GifModel
